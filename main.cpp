@@ -1,8 +1,9 @@
-#include <SDL3/SDL_events.h>
 #include <cstdlib>
-// #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#include "main.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
@@ -65,6 +66,48 @@ bool configArgs(emuConfig *config, const int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
         (void)argv[i]; // Prevent error from unused arguments
     }
+
+    return 1; // true
+}
+
+void loadFont(chip8Obj *chip8) {
+    const uint8_t font[] = {
+        0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+        0x20, 0x60, 0x20, 0x20, 0x70, // 1
+        0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+        0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+        0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+        0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+        0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+        0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+        0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+        0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+        0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+        0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+        0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+        0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+        0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+        0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+    };
+    memcpy(&chip8->mem[0], font, sizeof(font));
+};
+
+// Initialize CHIP-8 "emulator"
+bool initEmu(chip8Obj *chip8, const char rom[]) {
+    const uint32_t romLocation = 0x200; // Load CHIP-8 roms to 0x200 (512)
+
+    // Load font
+    loadFont(chip8);
+
+    // Load ROM
+    FILE *rom = fopen(rom, "rb");
+    if (!rom) {
+        printf("Invalid or null rom file!", rom);
+        return -1;
+    }
+
+    // Set defaults
+    chip8->PC = romLocation; // Program counter starts at ROM location
 
     return 1; // true
 }
@@ -139,5 +182,7 @@ int main(int argc, char **argv) {
     // Cleanup
     cleanup(&sdl);
 
+    // Test
+    printf("Emulator quit successfully.");
     exit(EXIT_SUCCESS);
 }
