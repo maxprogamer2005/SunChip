@@ -1,2 +1,2 @@
 # SunChip
-A (WIP) CHIP-8 interpreter for Linux, BSD, macOS, Windows, and other systems that support SDL3
+A (WIP) CHIP-8 interpreter for Linux, BSD, Unix, macOS, Windows, and other systems written in C90
