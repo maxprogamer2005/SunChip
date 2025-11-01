@@ -2,10 +2,10 @@
 *.d
 
 # Compiled Object files
-*.slo
-*.lo
 *.o
+*.ko
 *.obj
+*.elf
 
 # Precompiled Headers
 *.gch
@@ -13,12 +13,18 @@
 
 # Linker files
 *.ilk
+*.map
+*.exp
 
 # Debugger Files
+*.dSYM/
+*.su
+*.idb
 *.pdb
 
 # Compiled Dynamic libraries
 *.so
+*.so.*
 *.dylib
 *.dll
 
@@ -27,7 +33,7 @@
 *.smod
 
 # Compiled Static libraries
-*.lai
+*.lo
 *.la
 *.a
 *.lib
@@ -36,6 +42,17 @@
 *.exe
 *.out
 *.app
+*.i*86
+*.x86
+*.x86*
+*.aarch*
+*.mips*
+*.ppc*
+*.hex
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
 
 # debug information files
 *.dwo
