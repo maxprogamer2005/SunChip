@@ -1,5 +1,5 @@
 CC = clang
-CPPFLAGS=-std=c++23 -Wall -Wextra -Werror
+CFLAGS=-std=c90 -Wall -Wextra -Werror
 
 all:
-	clang main.cpp -o sunchip -lSDL3 ${CPPFLAGS}
+	clang main.c -o sunchip -lSDL3 ${CFLAGS}
