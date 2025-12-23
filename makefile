@@ -1,5 +1,5 @@
-CC = clang
-CFLAGS=-std=c90 -Wall -Wextra -Werror
+CC = gcc
+CFLAGS=-std=c89 -Wall -Wextra -Werror
 
 all:
-	clang main.c -o sunchip -lSDL3 ${CFLAGS}
+	${CC} src/main.c -o sunchip -lSDL3 ${CFLAGS}
