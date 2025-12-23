@@ -8,7 +8,7 @@
 * Made in C89 *
 *~~~~~~~~~~~~~*
 *   By max    *
-* Version 1.0 *
+* Version 0.2 *
 *_____________*
 **************/
 
@@ -253,7 +253,7 @@ void execute(chip8 *chip8, emuConfig *config) {
                 memset(&chip8->vram[0], false, sizeof chip8->vram);
                 break;
 
-            case 0xEE: /* RET (urn) from address - 00EE */
+            case 0xEE: /* RET(urn) from address - 00EE */
                 chip8->PC = (chip8->ram[chip8->SP] << 8);
                 chip8->PC |= chip8->ram[chip8->SP + 1];
                 chip8->SP -= 2;
@@ -265,7 +265,7 @@ void execute(chip8 *chip8, emuConfig *config) {
             }
             break;
 
-        case 0x01: /* JP address - 1NNN */
+        case 0x01: /* J(um)P to address - 1NNN */
             chip8->PC = NNN;
             break;
 
@@ -372,7 +372,7 @@ void execute(chip8 *chip8, emuConfig *config) {
             chip8->I = NNN;
             break;
 
-        case 0x0B: /* C8: Jump to address NNN + V0, SC: Jump to address NNN + Vx */
+        case 0x0B: /* C8: J(um)P to address NNN + V0, SC: Jump to address NNN + Vx - BNNN */
             chip8->PC = NNN + chip8->V[0];
             break;
 
@@ -386,13 +386,13 @@ void execute(chip8 *chip8, emuConfig *config) {
 
         case 0x0E:
             switch (b2) {
-                case 0x9E:
+                case 0x9E: /* If key Vx is pressed, skip the next instruction - Ex9E */
                     if (chip8->keypad[chip8->V[x]] == keyDown) {
                         skipInstr(chip8);
                     }
                     break;
 
-                case 0xA1:
+                case 0xA1: /* If key Vx is not pressed, skip the next instruction - ExA1 */
                     if (chip8->keypad[chip8->V[x]] == keyUp) {
                         skipInstr(chip8);
                     }
@@ -402,23 +402,23 @@ void execute(chip8 *chip8, emuConfig *config) {
 
         case 0x0F:
             switch (b2) {
-                case 0x07: /* Set Vx = delay timer */
+                case 0x07: /* Set Vx = delay timer - Fx07 */
                     chip8->V[x] = chip8->delayTimer;
                     break;
 
-                case 0x0A:
+                case 0x0A: /* Wait for key to be pressed, set Vx = key value - Fx0A */
                     keyWait(chip8, x);
                     break;
 
-                case 0x15:
+                case 0x15: /* Set delay timer = Vx - Fx15  */
                     chip8->delayTimer = chip8->V[x];
                     break;
 
-                case 0x18:
+                case 0x18: /* Set sound timer = Vx - Fx18 */
                     chip8->soundTimer = chip8->V[x];
                     break;
 
-                case 0x1E:
+                case 0x1E: /* ADD Vx to I - Fx1E */
                     chip8->I += chip8->V[x];
                     break;
 
